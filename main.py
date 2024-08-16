@@ -212,11 +212,11 @@ def login_account():
     # password = "fc751746584fc"
     # id_card = "001X"
     #
-    options = webdriver.ChromeOptions()
-    # options.add_argument('headless')  # 设置option
-    options.add_argument("--disable-blink-features=AutomationControlled")
-    browser = webdriver.Chrome(options=options)
-    actions = ActionChains(browser)
+    # options = webdriver.ChromeOptions()
+    # # options.add_argument('headless')  # 设置option
+    # options.add_argument("--disable-blink-features=AutomationControlled")
+    # browser = webdriver.Chrome(options=options)
+    # actions = ActionChains(browser)
     #
     # browser.maximize_window()
     # login_url = 'https://kyfw.12306.cn/otn/resources/login.html'
@@ -261,51 +261,48 @@ def login_account():
     # sureBtn.click()
     # time.sleep(10)
 
-    #cook设置
-    options = webdriver.ChromeOptions()
-    # options.add_argument('headless')  # 设置option
-    options.add_argument("--disable-blink-features=AutomationControlled")
-    browser = webdriver.Chrome(options=options)
-    actions = ActionChains(browser)
-    #
-    # browser.maximize_window()
-    # login_url = 'https://kyfw.12306.cn/otn/resources/login.html'
-    # browser.get(login_url)
-    # time.sleep(2)
-
-    # with open('cookies.txt', 'w') as f:
-    #     # 将cookies保存为json格式
-    #     f.write(json.dumps(browser.get_cookies()))
-
-    # cookies = json.load(open("cookies.txt", "rb"))
-    browser.get("https://kyfw.12306.cn/otn/resources/login.html")
-    with open(r'cookies.txt', 'r') as f:
-        cookie_list = json.load(f)
-        for cookie in cookie_list:
-            print("cookiecookiecookie", cookie)
-            browser.add_cookie(cookie)
-    browser.get("https://kyfw.12306.cn/otn/resources/login.html")
-    time.sleep(10)
-
-    #第二阶段锁定订单
-    # options = webdriver.ChromeOptions()
-    # # options.add_argument('headless')  # 设置option
-    # options.add_argument("--disable-blink-features=AutomationControlled")
-    # browser = webdriver.Chrome(options=options)
-    # actions = ActionChains(browser)
-    #
-    # browser.maximize_window()
-    # login_url = 'https://kyfw.12306.cn/otn/view/index.html'
-    # browser.get(login_url)
-    # time.sleep(2)
-    #
     # link_for_ticket = browser.find_element(By.ID, "link_for_ticket")
     # link_for_ticket.click()
     # time.sleep(10)
     # actions.move_to_element(link_for_ticket).click().perform()
 
+    #第二阶段锁定订单
 
 
+    options = webdriver.ChromeOptions()
+    # options.add_argument('headless')  # 设置option
+    options.add_argument("--disable-blink-features=AutomationControlled")
+    browser = webdriver.Chrome(options=options)
+    actions = ActionChains(browser)
+
+    browser.maximize_window()
+    login_url = 'https://kyfw.12306.cn/otn/leftTicket/init'
+    browser.get(login_url)
+    time.sleep(2)
+
+    fromStationText_label = browser.find_element(By.ID, "fromStationText")
+    actions.move_to_element(fromStationText_label).click().perform()
+    fromStationText_label.clear()
+    fromStationText_label.send_keys("chengdu")
+    fromStationText_label.send_keys(Keys.ENTER)
+    time.sleep(2)
+
+    toStationText_label = browser.find_element(By.ID, "toStationText")
+    actions.move_to_element(toStationText_label).click().perform()
+    toStationText_label.clear()
+    toStationText_label.send_keys("chongqing")
+    toStationText_label.send_keys(Keys.ENTER)
+    time.sleep(2)
+    #
+    # train_date_label = browser.find_element(By.ID, "train_date")
+    # actions.move_to_element(train_date_label).click().perform()
+    # train_date_label.clear()
+    # train_date_label.send_keys("2024-08-15")
+    # time.sleep(2)
+
+    query_ticket_btn = browser.find_element(By.ID, "query_ticket")
+    query_ticket_btn.click()
+    time.sleep(5)
 
 if __name__ == '__main__':
     login_account()
